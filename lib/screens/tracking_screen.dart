@@ -92,7 +92,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
     );
 
     if (position.accuracy > AppConstants.maxAcceptedAccuracyMeters) {
-      setState(() => _message = 'Weak GPS point ignored: ${position.accuracy.toStringAsFixed(0)} m accuracy.');
+      setState(() => _message = 'Waiting for a clearer GPS signal...');
       return;
     }
 
@@ -106,14 +106,14 @@ class _TrackingScreenState extends State<TrackingScreen> {
       }
 
       if (segmentSpeed > AppConstants.maxAcceptedSegmentSpeedKmh) {
-        setState(() => _message = 'Suspicious GPS jump ignored: ${segmentSpeed.toStringAsFixed(1)} km/h.');
+        setState(() => _message = 'GPS signal stabilized; continuing...');
         return;
       }
     }
 
     setState(() {
       _points.add(point);
-      _message = 'GPS points: ${_points.length}';
+      _message = 'Recording route point ${_points.length}';
     });
   }
 
@@ -171,7 +171,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
     final formattedDuration = duration.toString().split('.').first.padLeft(8, '0');
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Track session')),
+      appBar: AppBar(title: const Text('Track real run')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -203,7 +203,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
             FilledButton.icon(
               onPressed: _start,
               icon: const Icon(Icons.gps_fixed_rounded),
-              label: const Text('Start GPS'),
+              label: const Text('Start run'),
             )
           else ...[
             OutlinedButton.icon(
@@ -220,7 +220,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
           ],
           const SizedBox(height: 20),
           const Text(
-            'Keep the phone with you during the session. Early prototype mode is most reliable when the app remains open.',
+            'Keep the phone with you during the session. Outdoor movement gives the best distance measurement.',
           ),
         ],
       ),

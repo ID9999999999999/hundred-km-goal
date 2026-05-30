@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
 import '../models/run_record.dart';
+import '../services/speed_category_service.dart';
 import '../widgets/metric_card.dart';
 
 class RunDetailScreen extends StatelessWidget {
@@ -19,14 +20,15 @@ class RunDetailScreen extends StatelessWidget {
     final center = route.isNotEmpty ? route.first : const LatLng(0, 0);
     final duration = Duration(seconds: run.durationSeconds).toString().split('.').first;
     final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final speedLabel = SpeedCategoryService.label(run.averageSpeedKmh);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Session detail')),
+      appBar: AppBar(title: const Text('Passport stamp detail')),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           MetricCard(
-            label: 'Distance',
+            label: 'Distance stamp',
             value: '${run.distanceKm.toStringAsFixed(3)} km',
             helper: dateFormat.format(run.startedAt),
           ),
@@ -37,6 +39,12 @@ class RunDetailScreen extends StatelessWidget {
               const SizedBox(width: 12),
               Expanded(child: MetricCard(label: 'Avg speed', value: '${run.averageSpeedKmh.toStringAsFixed(2)} km/h')),
             ],
+          ),
+          const SizedBox(height: 12),
+          MetricCard(
+            label: 'Speed type',
+            value: speedLabel,
+            helper: SpeedCategoryService.slowRunBandText,
           ),
           const SizedBox(height: 16),
           ClipRRect(
@@ -69,7 +77,7 @@ class RunDetailScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16),
-          Text('GPS points: ${run.routePoints.length}'),
+          Text('Route points: ${run.routePoints.length}'),
           Text('Finished: ${dateFormat.format(run.finishedAt)}'),
         ],
       ),

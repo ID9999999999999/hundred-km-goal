@@ -1,116 +1,57 @@
 # 100KM Goal
 
-One-line mission: a privacy-first Flutter application that records real walking or running sessions locally and shows progress toward a personal 100 km goal.
+A real local-first Flutter application for recording walking or running sessions and building a private 100 km progress history.
 
-## Problem
+## What the app does
 
-A runner or student often wants a simple, private and verifiable history of progress without a social platform, cloud account, subscription, or public leaderboard. This project records GPS-based sessions on the phone, stores them locally, and converts them into a clean personal history toward a 100 km objective.
+- Records real outdoor sessions using phone location.
+- Calculates distance, duration, average speed, and route points.
+- Saves sessions locally on the phone.
+- Shows a dedicated **100KM Passport / جواز 100 كيلومتر** inside History.
+- Marks each session as a passport stamp.
+- Shows whether the average speed is walking, slow easy running, normal running, or fast running.
+- Uses a slow-running reference band of **6.0–8.5 km/h**.
+- Builds an Android APK through GitHub Actions without installing Flutter locally.
 
-## Implemented Features
-
-- Local progress dashboard: total distance, remaining distance, and completion ratio.
-- GPS session tracking with distance, duration, average speed, and route points.
-- Internal run history stored on the device with no server dependency.
-- Route detail screen using OpenStreetMap through `flutter_map`.
-- Basic integrity filters for impossible GPS jumps and excessive speed.
-- RDOS documentation, security audit script, manifest generation, and release packaging.
-
-## Project Status
-
-- Current stage: **prototype / RDOS M1**.
-- Public status: **private_prototype until tested on a real Android device**.
-- Target platform: Android first; iOS can be generated later from the same Flutter source.
-- Data policy: local-only; no cloud synchronization is implemented.
-
-## Installation
-
-```bash
-flutter --version
-flutter create --platforms=android .
-flutter pub get
-flutter run
-```
-
-If Flutter is not recognized, install Flutter SDK and add Flutter `bin` to the Windows PATH before running the commands.
-
-## Usage
+## User flow
 
 ```text
-Home Screen
-├── Total distance: 0.00 / 100 km
-├── Remaining distance
-├── Progress bar
-├── Start / Continue button
-└── History button
-
-Tracking Screen
-├── Start tracking
-├── Pause / Resume
-├── Finish and save
-└── Route points are collected from GPS
-
-History Screen
-├── Saved sessions
-├── Date
-├── Distance
-├── Duration
-└── Detail route screen
+Home
+├── Start run
+│   ├── ask location permission
+│   ├── record route points
+│   ├── show distance / duration / average speed
+│   └── finish and save
+└── Open 100KM Passport
+    ├── completed distance
+    ├── remaining distance
+    ├── progress bar
+    └── session stamps
 ```
 
-## Project Structure
+## Build from GitHub
+
+Open the repository on GitHub:
 
 ```text
-YASSER_100KM_GOAL_RDOS/
-├── README.md
-├── pubspec.yaml
-├── analysis_options.yaml
-├── .gitignore
-├── LICENSE
-├── lib/
-│   ├── main.dart
-│   ├── app.dart
-│   ├── core/
-│   ├── models/
-│   ├── screens/
-│   ├── services/
-│   └── widgets/
-├── test/
-├── docs/
-├── rdos/
-├── scripts/
-└── .github/workflows/
+Actions → Build Android APK → Run workflow
 ```
 
-## Tests
+When it succeeds, download:
 
-```bash
-flutter test
-python scripts/audit_repository_quality.py . --markdown
-python scripts/generate_manifest.py . --output rdos/manifest/PROJECT_MANIFEST.sha256
-python scripts/package_release.py . --output ../YASSER_100KM_GOAL_RDOS_release.zip --strict
+```text
+hundred-km-goal-real-app-apk
 ```
 
-## Privacy Model
+Inside the ZIP you will find:
 
-The app stores all sessions locally through `SharedPreferences`. It does not contain login, backend, analytics, tracking SDK, ads, or server upload. Location permission is required only to record the user's own route.
+```text
+app-debug.apk
+```
 
-## Known Limitations
+Install this APK on Android and allow location permission when the app asks.
 
-- The prototype must be tested on a real Android device for GPS accuracy.
-- Background tracking is not hardened yet; the screen should stay active during early tests.
-- The app does not claim medical accuracy.
-- Anti-cheat is basic and designed for personal honesty, not official competition.
+## Test
 
-## RDOS Quality Gate
-
-This repository follows a minimal RDOS discipline:
-
-- README is non-empty and executable.
-- Documentation explains mission, architecture, security, limits and publishing.
-- Scripts generate a manifest, run a local quality audit and package a release zip.
-- Secrets, build folders and generated artifacts are excluded from version control.
-- The repository should remain private until device execution is verified.
-
-## License
-
-MIT License. See `LICENSE`.
+For the first test, walk or jog outdoors for 30–100 meters, finish the session, then open History.
+The session should appear as a stamp inside the 100KM Passport.

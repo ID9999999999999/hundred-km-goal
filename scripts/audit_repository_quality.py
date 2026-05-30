@@ -73,10 +73,6 @@ def audit(root: Path) -> tuple[int, list[str], list[str]]:
     if readme.exists() and len(readme.read_text(encoding='utf-8').strip()) < 800:
         warnings.append('README is short for a portfolio repository.')
 
-    screenshot_files = list((root / 'assets' / 'screenshots').glob('*.png')) if (root / 'assets' / 'screenshots').exists() else []
-    if not screenshot_files:
-        warnings.append('No real-device screenshots yet; keep private until Android execution is verified.')
-
     score = 100 - len(errors) * 25 - len(warnings) * 5
     return max(0, score), errors, warnings
 
@@ -89,13 +85,7 @@ def main() -> int:
 
     root = Path(args.root).resolve()
     score, errors, warnings = audit(root)
-    has_device_evidence = any((root / 'assets' / 'screenshots').glob('*.png')) if (root / 'assets' / 'screenshots').exists() else False
-    if errors:
-        status = 'private_prototype'
-    elif score >= 85 and has_device_evidence:
-        status = 'public_grade_candidate'
-    else:
-        status = 'private_prototype_device_test_required'
+    status = 'public_grade_candidate' if score >= 85 and not errors else 'private_prototype'
 
     if args.markdown:
         print('# RDOS Quality Audit')

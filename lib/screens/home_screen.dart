@@ -53,12 +53,12 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(20),
           children: [
             Text(
-              'Personal distance campaign',
+              'Personal running goal',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 8),
             Text(
-              'Record real walking or running sessions and build a clean internal history toward 100 km.',
+              'Record your real walking or running sessions on this phone and build your private progress toward 100 km.',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 24),
@@ -103,8 +103,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
                 await _load();
               },
-              icon: const Icon(Icons.play_arrow_rounded),
-              label: const Text('Start session'),
+              icon: const Icon(Icons.directions_run_rounded),
+              label: const Text('Start run'),
             ),
             const SizedBox(height: 12),
             OutlinedButton.icon(
@@ -114,12 +114,22 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
                 await _load();
               },
-              icon: const Icon(Icons.history_rounded),
-              label: const Text('Open history'),
+              icon: const Icon(Icons.badge_rounded),
+              label: const Text('Open 100KM Passport'),
             ),
-            const SizedBox(height: 32),
-            const Text(
-              'Integrity rule: this app is built for personal truth. It filters obvious GPS noise, but it is not an official race-certification system.',
+            const SizedBox(height: 28),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('How to test', style: Theme.of(context).textTheme.titleMedium),
+                    const SizedBox(height: 8),
+                    const Text('1. Press Start run.\n2. Allow location permission.\n3. Walk or jog outdoors for a short distance.\n4. Finish and save.\n5. Open the 100KM Passport in History.'),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
