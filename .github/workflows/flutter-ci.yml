@@ -28,6 +28,9 @@ jobs:
       - name: Generate Android platform
         run: flutter create --platforms=android .
 
+      - name: Remove generated default widget test
+        run: rm -f test/widget_test.dart
+
       - name: Install dependencies
         run: flutter pub get
 
