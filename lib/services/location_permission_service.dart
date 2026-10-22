@@ -6,7 +6,7 @@ class LocationPermissionService {
   static Future<String?> ensureReady() async {
     final serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      return 'Location service is disabled. Enable GPS before starting a session.';
+      return 'Геолокация выключена. Включите GPS перед тренировкой.';
     }
 
     var permission = await Geolocator.checkPermission();
@@ -15,11 +15,11 @@ class LocationPermissionService {
     }
 
     if (permission == LocationPermission.denied) {
-      return 'Location permission was denied.';
+      return 'Доступ к геолокации не разрешён.';
     }
 
     if (permission == LocationPermission.deniedForever) {
-      return 'Location permission is permanently denied. Open app settings and enable it manually.';
+      return 'Разрешите доступ к геолокации в настройках приложения.';
     }
 
     return null;

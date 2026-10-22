@@ -1,5 +1,5 @@
 name: hundred_km_goal
-version: 0.1.0+1
+version: 0.2.0+2
 publish_to: 'none'
 description: Privacy-first Flutter app for tracking real walking and running progress toward 100 km.
 
@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_localizations:
     sdk: flutter
   cupertino_icons: ^1.0.8
   flutter_map: ^8.3.0

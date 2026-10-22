@@ -9,6 +9,8 @@ class RunRecord {
     required this.durationSeconds,
     required this.averageSpeedKmh,
     required this.routePoints,
+    this.isDemo = false,
+    this.stadiumLaps,
   });
 
   final String id;
@@ -18,12 +20,16 @@ class RunRecord {
   final int durationSeconds;
   final double averageSpeedKmh;
   final List<GeoPoint> routePoints;
+  final bool isDemo;
+  final int? stadiumLaps;
 
   bool get hasRoute => routePoints.length >= 2;
 
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'isDemo': isDemo,
+      'stadiumLaps': stadiumLaps,
       'startedAt': startedAt.toIso8601String(),
       'finishedAt': finishedAt.toIso8601String(),
       'distanceKm': distanceKm,
@@ -36,6 +42,8 @@ class RunRecord {
   factory RunRecord.fromJson(Map<String, dynamic> json) {
     return RunRecord(
       id: json['id'] as String,
+      isDemo: json['isDemo'] as bool? ?? false,
+      stadiumLaps: json['stadiumLaps'] as int?,
       startedAt: DateTime.parse(json['startedAt'] as String),
       finishedAt: DateTime.parse(json['finishedAt'] as String),
       distanceKm: (json['distanceKm'] as num).toDouble(),
