@@ -77,6 +77,6 @@ points. They never enter phone storage or personal goal totals. **Мои зап�
 preserves existing real recordings and their maps; deleting one requires
 confirmation. New optional record fields retain compatibility with old data.
 
-The APK is built by Actions for `main`, `codex/**` branches and pull requests.
+The APK is built by Actions for `main` and pull requests.
 Download the artifact **hundred-km-goal-stadium-ru-apk** and extract `app-debug.apk`.
 This is a debug build for installation/testing on an Android phone.

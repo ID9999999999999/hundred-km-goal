@@ -72,7 +72,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 400));
     expect(find.text('Пример тренировки'), findsOneWidget);
     expect(find.text('ДЕМОНСТРАЦИОННЫЕ ДАННЫЕ'), findsOneWidget);
-    await tester.ensureVisible(find.text('Стадион ИРНИТУ'));
+    await tester.ensureVisible(find.text('Стадион ИРНИТУ').last);
     await tester.pump(const Duration(milliseconds: 100));
     await capture(tester, 'stadium-replay-ru');
     expect(tester.takeException(), isNull);
