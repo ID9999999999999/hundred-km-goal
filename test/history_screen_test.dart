@@ -1,8 +1,10 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -26,17 +28,30 @@ Future<void> capture(WidgetTester tester, String name) async {
 void main() {
   testWidgets('Russian demo archive stays separate from stored recordings', (tester) async {
     SharedPreferences.setMockInitialValues({});
+    await tester.runAsync(() async {
+      final font = File('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf');
+      if (await font.exists()) {
+        final loader = FontLoader('PreviewFont')
+          ..addFont(font.readAsBytes().then(ByteData.sublistView));
+        await loader.load();
+      }
+      final icons = FontLoader('MaterialIcons')
+        ..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'));
+      await icons.load();
+    });
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
     addTearDown(tester.view.resetDevicePixelRatio);
-    await tester.pumpWidget(const RepaintBoundary(
+    await tester.pumpWidget(RepaintBoundary(
       key: previewKey,
       child: MaterialApp(
-        locale: Locale('ru'),
-        supportedLocales: [Locale('ru')],
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: 'PreviewFont', colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF145D46)), scaffoldBackgroundColor: Colors.white),
+        locale: const Locale('ru'),
+        supportedLocales: const [Locale('ru')],
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        home: HistoryScreen(),
+        home: const HistoryScreen(),
       ),
     ));
     await tester.pumpAndSettle();
