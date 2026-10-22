@@ -151,7 +151,7 @@ class _StadiumPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    canvas.drawColor(const Color(0xFFEAF1E9));
+    canvas.drawColor(const Color(0xFFEAF1E9), BlendMode.srcOver);
     final center = Offset(size.width / 2, size.height / 2);
     // A rounded stadium shape, not a surveyed geographical outline.
     final rect = Rect.fromCenter(
