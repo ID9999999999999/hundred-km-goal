@@ -53,6 +53,7 @@ void main() {
     await tester.tap(find.text('Пример: ИРНИТУ'));
     await tester.pumpAndSettle();
     await tester.tap(find.byIcon(Icons.play_circle_outline).first);
+    await tester.pump();
     await tester.pump(const Duration(milliseconds: 400));
     expect(find.text('Пример тренировки'), findsOneWidget);
     expect(find.text('ДЕМОНСТРАЦИОННЫЕ ДАННЫЕ'), findsOneWidget);

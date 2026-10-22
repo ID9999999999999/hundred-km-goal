@@ -112,7 +112,9 @@ class _StadiumReplayState extends State<StadiumReplay>
               ),
               IconButton(
                 tooltip: 'Сначала',
-                onPressed: () => setState(() => _controller.forward(from: 0)),
+                onPressed: () => setState(() {
+                      _controller.forward(from: 0);
+                    }),
                 icon: const Icon(Icons.replay),
               ),
               DropdownButton<int>(
