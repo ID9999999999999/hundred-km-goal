@@ -40,9 +40,9 @@ class _TrackingScreenState extends State<TrackingScreen> {
   double get _distanceKm => DistanceService.totalDistanceKm(_points);
   int get _durationSeconds => _stopwatch.elapsed.inSeconds;
   double get _averageSpeedKmh => DistanceService.averageSpeedKmh(
-        distanceKm: _distanceKm,
-        durationSeconds: _durationSeconds,
-      );
+    distanceKm: _distanceKm,
+    durationSeconds: _durationSeconds,
+  );
 
   Future<void> _start() async {
     final error = await LocationPermissionService.ensureReady();
@@ -64,17 +64,18 @@ class _TrackingScreenState extends State<TrackingScreen> {
       distanceFilter: 5,
     );
 
-    _subscription = Geolocator.getPositionStream(locationSettings: settings).listen(
-      _handlePosition,
-      onError: (Object error) {
-        setState(() => _message = 'GPS error: $error');
-      },
-    );
+    _subscription = Geolocator.getPositionStream(locationSettings: settings)
+        .listen(
+          _handlePosition,
+          onError: (Object error) {
+            setState(() => _message = 'Ошибка GPS: $error');
+          },
+        );
 
     setState(() {
       _isTracking = true;
       _isPaused = false;
-      _message = 'Tracking started.';
+      _message = 'Запись началась.';
     });
   }
 
@@ -92,7 +93,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
     );
 
     if (position.accuracy > AppConstants.maxAcceptedAccuracyMeters) {
-      setState(() => _message = 'Waiting for a clearer GPS signal...');
+      setState(() => _message = 'Ожидание точного сигнала GPS…');
       return;
     }
 
@@ -106,14 +107,14 @@ class _TrackingScreenState extends State<TrackingScreen> {
       }
 
       if (segmentSpeed > AppConstants.maxAcceptedSegmentSpeedKmh) {
-        setState(() => _message = 'GPS signal stabilized; continuing...');
+        setState(() => _message = 'Ожидание стабилизации GPS…');
         return;
       }
     }
 
     setState(() {
       _points.add(point);
-      _message = 'Recording route point ${_points.length}';
+      _message = 'Записано точек: ${_points.length}';
     });
   }
 
@@ -122,10 +123,10 @@ class _TrackingScreenState extends State<TrackingScreen> {
       _isPaused = !_isPaused;
       if (_isPaused) {
         _stopwatch.stop();
-        _message = 'Session paused.';
+        _message = 'Тренировка приостановлена.';
       } else {
         _stopwatch.start();
-        _message = 'Session resumed.';
+        _message = 'Запись продолжена.';
       }
     });
   }
@@ -150,7 +151,7 @@ class _TrackingScreenState extends State<TrackingScreen> {
     if (record.distanceKm <= 0 || record.durationSeconds <= 0) {
       setState(() {
         _isTracking = false;
-        _message = 'Nothing saved: no valid distance was recorded.';
+        _message = 'Не сохранено: нет измеренной дистанции.';
       });
       return;
     }
@@ -160,7 +161,9 @@ class _TrackingScreenState extends State<TrackingScreen> {
       return;
     }
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Saved ${record.distanceKm.toStringAsFixed(2)} km.')),
+      SnackBar(
+        content: Text('Сохранено: ${record.distanceKm.toStringAsFixed(2)} км.'),
+      ),
     );
     Navigator.of(context).pop();
   }
@@ -168,32 +171,33 @@ class _TrackingScreenState extends State<TrackingScreen> {
   @override
   Widget build(BuildContext context) {
     final duration = Duration(seconds: _durationSeconds);
-    final formattedDuration = duration.toString().split('.').first.padLeft(8, '0');
+    final formattedDuration = duration
+        .toString()
+        .split('.')
+        .first
+        .padLeft(8, '0');
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Track real run')),
+      appBar: AppBar(title: const Text('Запись тренировки')),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
           MetricCard(
-            label: 'Current distance',
-            value: '${_distanceKm.toStringAsFixed(3)} km',
+            label: 'Расстояние',
+            value: '${_distanceKm.toStringAsFixed(3)} км',
             helper: _message,
           ),
           const SizedBox(height: 16),
           Row(
             children: [
               Expanded(
-                child: MetricCard(
-                  label: 'Duration',
-                  value: formattedDuration,
-                ),
+                child: MetricCard(label: 'Время', value: formattedDuration),
               ),
               const SizedBox(width: 12),
               Expanded(
                 child: MetricCard(
-                  label: 'Average speed',
-                  value: '${_averageSpeedKmh.toStringAsFixed(2)} km/h',
+                  label: 'Средняя скорость',
+                  value: '${_averageSpeedKmh.toStringAsFixed(2)} км/ч',
                 ),
               ),
             ],
@@ -203,24 +207,26 @@ class _TrackingScreenState extends State<TrackingScreen> {
             FilledButton.icon(
               onPressed: _start,
               icon: const Icon(Icons.gps_fixed_rounded),
-              label: const Text('Start run'),
+              label: const Text('Начать тренировку'),
             )
           else ...[
             OutlinedButton.icon(
               onPressed: _pauseOrResume,
-              icon: Icon(_isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded),
-              label: Text(_isPaused ? 'Resume' : 'Pause'),
+              icon: Icon(
+                _isPaused ? Icons.play_arrow_rounded : Icons.pause_rounded,
+              ),
+              label: Text(_isPaused ? 'Продолжить' : 'Пауза'),
             ),
             const SizedBox(height: 12),
             FilledButton.icon(
               onPressed: _finish,
               icon: const Icon(Icons.flag_rounded),
-              label: const Text('Finish and save'),
+              label: const Text('Завершить и сохранить'),
             ),
           ],
           const SizedBox(height: 20),
           const Text(
-            'Keep the phone with you during the session. Outdoor movement gives the best distance measurement.',
+            'Держите телефон при себе. Для точного измерения тренируйтесь на улице.',
           ),
         ],
       ),

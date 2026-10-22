@@ -37,28 +37,28 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   double get _totalKm => _runs.fold(0, (sum, run) => sum + run.distanceKm);
-  double get _remainingKm => (AppConstants.goalDistanceKm - _totalKm).clamp(0, AppConstants.goalDistanceKm);
+  double get _remainingKm => (AppConstants.goalDistanceKm - _totalKm).clamp(
+    0,
+    AppConstants.goalDistanceKm,
+  );
   double get _progress => (_totalKm / AppConstants.goalDistanceKm).clamp(0, 1);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('100KM Goal'),
-        centerTitle: false,
-      ),
+      appBar: AppBar(title: const Text('Цель — 100 км'), centerTitle: false),
       body: RefreshIndicator(
         onRefresh: _load,
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
             Text(
-              'Personal running goal',
+              'Моя цель — 100 км',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             const SizedBox(height: 8),
             Text(
-              'Record your real walking or running sessions on this phone and build your private progress toward 100 km.',
+              'Записывайте тренировки на телефоне. В архиве — отдельный пример на стадионе ИРНИТУ: 30 тренировок за июль и август 2026 года.',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             const SizedBox(height: 24),
@@ -66,9 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
               const Center(child: CircularProgressIndicator())
             else ...[
               MetricCard(
-                label: 'Total distance',
-                value: '${_totalKm.toStringAsFixed(2)} / 100 km',
-                helper: '${(_progress * 100).toStringAsFixed(1)}% completed',
+                label: 'Мои километры',
+                value: '${_totalKm.toStringAsFixed(2)} / 100 км',
+                helper: '${(_progress * 100).toStringAsFixed(1)}% выполнено',
               ),
               const SizedBox(height: 16),
               LinearProgressIndicator(
@@ -81,14 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Expanded(
                     child: MetricCard(
-                      label: 'Remaining',
-                      value: '${_remainingKm.toStringAsFixed(2)} km',
+                      label: 'Осталось',
+                      value: '${_remainingKm.toStringAsFixed(2)} км',
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: MetricCard(
-                      label: 'Sessions',
+                      label: 'Тренировок',
                       value: _runs.length.toString(),
                     ),
                   ),
@@ -99,23 +99,27 @@ class _HomeScreenState extends State<HomeScreen> {
             FilledButton.icon(
               onPressed: () async {
                 await Navigator.of(context).push(
-                  MaterialPageRoute<void>(builder: (_) => const TrackingScreen()),
+                  MaterialPageRoute<void>(
+                    builder: (_) => const TrackingScreen(),
+                  ),
                 );
                 await _load();
               },
               icon: const Icon(Icons.directions_run_rounded),
-              label: const Text('Start run'),
+              label: const Text('Начать тренировку'),
             ),
             const SizedBox(height: 12),
             OutlinedButton.icon(
               onPressed: () async {
                 await Navigator.of(context).push(
-                  MaterialPageRoute<void>(builder: (_) => const HistoryScreen()),
+                  MaterialPageRoute<void>(
+                    builder: (_) => const HistoryScreen(),
+                  ),
                 );
                 await _load();
               },
               icon: const Icon(Icons.badge_rounded),
-              label: const Text('Open 100KM Passport'),
+              label: const Text('Открыть архив'),
             ),
             const SizedBox(height: 28),
             Card(
@@ -124,9 +128,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('How to test', style: Theme.of(context).textTheme.titleMedium),
+                    Text(
+                      'Как пользоваться',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     const SizedBox(height: 8),
-                    const Text('1. Press Start run.\n2. Allow location permission.\n3. Walk or jog outdoors for a short distance.\n4. Finish and save.\n5. Open the 100KM Passport in History.'),
+                    const Text(
+                      '1. Откройте архив для просмотра примеров.\n2. Для своей записи нажмите «Начать тренировку».\n3. Разрешите доступ к геолокации.\n4. После пробежки нажмите «Завершить и сохранить».\nПримеры не входят в ваши личные километры.',
+                    ),
                   ],
                 ),
               ),
