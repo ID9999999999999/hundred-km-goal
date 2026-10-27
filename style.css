@@ -18,3 +18,27 @@
 .footer{color:#fff9;font-size:12px;font-weight:800;line-height:1.45;text-align:center;padding:9px 0;text-shadow:0 2px 8px #45122a}
 @media(max-width:850px){.shell{padding:15px 17px 24px}.stage{align-items:flex-end;justify-content:center;padding:180px 0 25px}.backdrop{background-position:65% top}.backdrop:after{background:linear-gradient(0deg,#36101bc4 0%,transparent 75%)}.panel{max-width:620px;padding:24px 19px;border-radius:25px}.hero-icon{font-size:44px;margin-top:12px}h1{font-size:clamp(29px,6vw,42px)}p.lead{font-size:15px;margin-bottom:16px}.mini-tag{font-size:10px}.options{gap:8px}.option{min-height:84px;font-size:12.4px}.option .emoji{font-size:25px}.buttons>*{flex:1 1 45%;padding:12px 13px}}@media(max-width:390px){.brand{font-size:13px}.brand-icon{width:31px;height:31px}.panel{padding:20px 16px}.stage{padding-top:150px}.option{min-height:80px}.summaries{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+/* Playful interactions — shared across all eight real pages */
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #b92c62;outline-offset:3px}
+#no-btn.dodging{position:fixed!important;z-index:30;margin:0;max-width:calc(100vw - 32px);will-change:left,top;transition:left .21s ease-out,top .21s ease-out,transform .19s ease-out;box-shadow:0 12px 28px #d7296280}
+.love-radar,.gift-station,.final-secret{padding:17px 16px 12px;border-radius:20px;background:#fff9fb;border:1px dashed #f5a9c2;margin:19px 0 9px;text-align:center}
+.love-radar{margin-top:20px}
+.radar-title{font-weight:900;color:#a12d5a;font-size:14px;margin-bottom:9px}
+.radar-btn,.gift-button,.fortune-btn{min-height:43px;border:1px solid #ef9dbc;background:linear-gradient(145deg,#fff,#ffe3ec);color:#ad295a;font-size:13px;padding:10px 14px;border-radius:13px;box-shadow:0 4px 13px #af2c5920}
+.radar-track{height:10px;border-radius:99px;margin:11px auto 9px;background:#f8d3e0;overflow:hidden;max-width:400px}
+.radar-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,#ff87a9,#ed2f79);border-radius:99px;transition:width 1.5s cubic-bezier(.25,.9,.25,1)}
+.radar-result{font-weight:850;color:#9c3f60;font-size:13px;line-height:1.5;margin:4px 0}
+.mini-magic{margin-top:16px;border-top:1px solid #edd0dc;padding-top:16px;text-align:center}
+.fortune-btn{box-shadow:none}
+.fortune-result{display:none;margin:13px 0 2px;font-size:13px;line-height:1.55;font-weight:850;color:#a42d5c;background:#fff;padding:10px;border-radius:12px;border:1px solid #ffd2e2;animation:cardIn .25s both}
+.mini-magic.revealed .fortune-result{display:block}
+.gift-station{margin:17px 0 5px}.gift-message,.secret-note{display:none;color:#a22e5b;font-weight:900;line-height:1.7;font-size:14px;margin:10px 0 0}
+.gift-station.opened .gift-message,.final-secret.opened .secret-note{display:block;animation:cardIn .35s both}
+.final-secret{margin-bottom:17px}
+.burst-heart{position:fixed;z-index:55;pointer-events:none;font-size:22px;line-height:1;transform:translate(-50%,-50%);animation:heartBurst 1.05s ease-out forwards;filter:drop-shadow(0 4px 5px #a83b6766)}
+@keyframes heartBurst{0%{opacity:1;transform:translate(-50%,-50%) scale(.55) rotate(-12deg)}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.12) rotate(22deg)}}
+.page-transition{position:fixed;inset:0;z-index:90;background:radial-gradient(circle,#fff0f6 0%,#ff78a7 95%);display:grid;place-items:center;font-size:clamp(90px,15vw,180px);animation:transitionIn .45s ease-in-out both;pointer-events:none}
+@keyframes transitionIn{from{opacity:0;transform:scale(1.15)}to{opacity:1;transform:scale(1)}}
+.decline-link{margin-top:10px!important;background:transparent!important;border:none!important;box-shadow:none!important;color:#984c69!important;min-height:34px!important;text-decoration:underline;font-size:13px!important}
+@media(max-width:500px){.radar-btn,.gift-button{width:100%}.love-radar{padding:13px 11px}.mini-magic{margin-top:12px}.fortune-btn{width:100%}}
+@media(prefers-reduced-motion:reduce){#no-btn.dodging{transition:none!important}.radar-track span{transition:none!important}}
